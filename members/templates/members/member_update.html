@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load fiber_tags%}
+
+{% block main_content %}
+    <section class="content">
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Update" class="button">
+	    </form>
+    </section>
+
+{% endblock %}

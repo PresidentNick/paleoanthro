@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load fiber_tags%}
+{% load staticfiles %}
+
+{% block logo %}
+<div id="logo">
+    <a href="/home">
+        <img id="logo_image" src="{% static 'paleoanthro_images/skull_grey150.jpg' %}"></a>
+    <img src="{%  static 'paleoanthro_images/journalbanner.gif' %}">
+</div>
+{% endblock %}
+

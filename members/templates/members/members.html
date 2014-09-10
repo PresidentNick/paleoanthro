@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load fiber_tags%}
+
+{% block main_content %}
+    <section class="content">
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        <form action="{% url 'members:members' %}" method="get">
+            <p>Enter all or part of the person's last name: <input type="text" name="query"> <input type="submit" value="Search">
+	    </form>
+    </section>
+    <section class="content">
+        {% if members_list %}
+            <table>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Membership</th>
+                <th>Registration</th>
+            </tr>
+            {% for member in members_list %}
+                <tr bgcolor="{% cycle '#DDD' '#FFF' %}">
+                    <td><a href="{% url 'members:member_update' member.id %}">{{ member.upper_case_name }}</a></td>
+                    <td>{{ member.email_address }}</td>
+                    <td>{{ member.recent_membership }}</td>
+                    <td>{{ member.recent_registration }}</td>
+                </tr>
+            {% endfor %}
+            </table>
+
+        {% else %}
+            <p>No members match your search.</p>
+        {% endif %}
+    </section>
+{% endblock %}
