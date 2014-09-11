@@ -18,7 +18,7 @@ class PaleoanthroUser(models.Model):
     system to track and manage paleocore users rather than constructing a separate
     membership database.
 
-    This class is coupled with a custom PaleoCoreUserAdmin module in base.admin.py
+    This class is coupled with a custom PaleoCoreUserAdmin module in home.admin.py
     """
     user = models.OneToOneField(User)
 

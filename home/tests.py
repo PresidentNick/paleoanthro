@@ -1,5 +1,5 @@
 from django.test import TestCase
-from base.models import Announcement
+from home.models import Announcement
 from fiber.models import Page
 from django.core.urlresolvers import reverse
 from django.utils import timezone
@@ -93,14 +93,14 @@ class AnnouncementMethodTests(TestCase):
 
 class PageViewTests(TestCase):
     """
-    Tests for the pages and links in the base part of the site, including the home page,
+    Tests for the pages and links in the home part of the site, including the home page,
     and announcement detail pages, the join page and the members search page.
     """
 
     def test_home_page_view(self):
         create_django_page_tree()  # create a test fiber page tree
-        self.assertEqual(reverse('base:home'), '/home/')  # sanity check for reverse method
-        response = self.client.get(reverse('base:home'))  # fetch the home page
+        self.assertEqual(reverse('home:home'), '/home/')  # sanity check for reverse method
+        response = self.client.get(reverse('home:home'))  # fetch the home page
         self.assertEqual(response.status_code, 200)  # check home page returns 200
         self.assertContains(response, "There are no active announcements")  # Test no announcements message
         Announcement.objects.create(title="A Wonderful Test Announcement",
@@ -110,14 +110,14 @@ class PageViewTests(TestCase):
                                     priority=1,
                                     expires=timezone.now()+datetime.timedelta(days=1),  # current announcement
                                     approved=True,)
-        response = self.client.get(reverse('base:home'))
+        response = self.client.get(reverse('home:home'))
         self.assertContains(response, "A Wonderful Test Announcement")  # Test that announcement appears on home page
 
     def test_announcement_detail_page_veiw(self):
         create_django_page_tree()  # create a test fiber page tree
         # sanity check for reverse
-        self.assertEqual(reverse('base:announcement_detail', kwargs={'pk': 1}), '/home/detail/1/')
-        self.assertEqual(reverse('base:announcement_detail_root'), '/home/detail/')
+        self.assertEqual(reverse('home:announcement_detail', kwargs={'pk': 1}), '/home/detail/1/')
+        self.assertEqual(reverse('home:announcement_detail_root'), '/home/detail/')
         # create an announcement
         Announcement.objects.create(title="A Wonderful Test Announcement",
                                     short_title="Test_Short_Title",
@@ -131,8 +131,8 @@ class PageViewTests(TestCase):
                                     expires=timezone.now()+datetime.timedelta(days=1),  # current announcement
                                     approved=True,)
         a = Announcement. objects.get(title="A Wonderful Test Announcement")
-        self.assertEqual(reverse('base:announcement_detail', args=[a.id]), '/home/detail/'+str(a.id)+"/")
-        response = self.client.get(reverse('base:home'))
+        self.assertEqual(reverse('home:announcement_detail', args=[a.id]), '/home/detail/'+str(a.id)+"/")
+        response = self.client.get(reverse('home:home'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "A Wonderful Test Announcement")
         self.assertContains(response, "more...")
@@ -145,5 +145,5 @@ class PageViewTests(TestCase):
 
     def test_reverse_method_for_join_page(self):
         create_django_page_tree()
-        response = self.client.get(reverse('base:join'))
+        response = self.client.get(reverse('home:join'))
         self.assertEqual(response.status_code, 200)

@@ -1,5 +1,5 @@
 from django.db import models
-from base.choices import COUNTRY_CHOICES, PAYMENT_TYPE_CHOICES
+from home.choices import COUNTRY_CHOICES, PAYMENT_TYPE_CHOICES
 from django.forms import ModelForm, EmailInput, Textarea, TextInput
 from django.core.urlresolvers import reverse
 from captcha.fields import CaptchaField

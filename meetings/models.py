@@ -1,6 +1,6 @@
 from django.db import models
 from ckeditor.fields import RichTextField
-from base.choices import *
+from home.choices import *
 from fiber.models import Page
 from django.core.exceptions import ObjectDoesNotExist
 

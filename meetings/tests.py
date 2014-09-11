@@ -26,10 +26,10 @@ def create_meeting(year=2020, title='Jamaica 2020', location='Jamaica', associat
     return Meeting(title, year, location=location,associated_with=associated_with)
 
 
-# Factory method to create a fiber page tree with five base pages plus three meetings pages and their associated
+# Factory method to create a fiber page tree with five home pages plus three meetings pages and their associated
 # meeting instances.
 def create_three_meetings_with_pages():
-    # Create base fiber tree
+    # Create home fiber tree
     create_django_page_tree()
     # Create meeting instances
     calgary = Meeting(year=2014, title='Calgary 2014', location='Calgary, AB', associated_with='AAPA')

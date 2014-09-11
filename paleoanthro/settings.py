@@ -72,7 +72,7 @@ INSTALLED_APPS = (
     'captcha',
 
     # Project Apps
-    'base',  # main site app
+    'home',  # main site app
     'meetings',  # meetings app
     'journal',  # paleoanthro journal app
     'dissertations',  # dissertation app

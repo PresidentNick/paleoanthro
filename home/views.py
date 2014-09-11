@@ -21,7 +21,7 @@ class AnnouncementView(FiberPageMixin, generic.ListView):
             filter(expires__gt=now).filter(approved=True).order_by('-pub_date', '-created')
 
     def get_fiber_page_url(self):
-        return reverse('base:home')
+        return reverse('home:home')
 
 
 class AnnouncementDetailView(FiberPageMixin, generic.DetailView):
@@ -30,7 +30,7 @@ class AnnouncementDetailView(FiberPageMixin, generic.DetailView):
 
     # A class to combine the context for the fiber page with the general context.
     def get_fiber_page_url(self):
-        return reverse('base:announcement_detail_root')
+        return reverse('home:announcement_detail_root')
 
 
 #####################
@@ -40,7 +40,7 @@ class AnnouncementDetailView(FiberPageMixin, generic.DetailView):
 class JoinIndexView(FiberPageMixin, generic.ListView):
     # A class to combine the context for the fiber page with the general context.
     def get_fiber_page_url(self):
-        return reverse('base:join')
+        return reverse('home:join')
 
 
 class JoinView(JoinIndexView):

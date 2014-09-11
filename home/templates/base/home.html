@@ -21,7 +21,7 @@
                 {{ announcement.stub|safe }}
 
                 {% if announcement.body %}
-                <p id="more"><a href="{%  url 'base:announcement_detail' announcement.id %}">more...</a></p>
+                <p id="more"><a href="{%  url 'home:announcement_detail' announcement.id %}">more...</a></p>
                 {% endif %}
 
                 </div>
