@@ -41,7 +41,7 @@ MEDIA_URL = "/media/"
 SECRET_KEY = local_settings.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = local_settings.DEBUG
 
 TEMPLATE_DEBUG = True
 
