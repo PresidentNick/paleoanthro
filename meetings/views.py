@@ -111,6 +111,24 @@ class AbstractCreateView(FiberPageMixin, generic.CreateView):
             author.abstract = self.object
             author.save()
             rank += 1
+            
+        # TODO Send validation email
+        # email a copy of the abstract to John Yellen and Deborah O
+
+        # abstract_message = "Presentation Type: %s \n Title: %s \n Authors: %s \n Abstact: %s \n " \
+        #                    "Acknowledgements: %s \n References: %s \n Funding %s \n Comments: %s \n " \
+        #                    "Contact Email: %s \n " % (self.presentation_type, self.title,
+        #                                               "; ".join(self.author_names), self.abstract_text,
+        #                                               self.acknowledgements, self.references,
+        #                                               self.funding, self.comments,
+        #                                               self.contact_email)
+
+        abstract_message = "Test message"
+
+        send_mail('Paleoanthropology Abstract Submission',
+                  abstract_message, 'paleoanthro@paleoanthro.org',  # from
+                  ['denne.reed@gmail.com'])
+                  #['jyellen@nsf.gov', 'deboraho@sas.upenn.edu']   # to
 
         return HttpResponseRedirect(self.get_success_url())
 
