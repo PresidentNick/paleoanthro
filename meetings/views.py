@@ -89,7 +89,7 @@ class AbstractCreateView(FiberPageMixin, generic.CreateView):
         form.meeting_id = 24
         form.year = 2015
         author_formset = AuthorInlineFormSet(self.request.POST)
-        if (form.is_valid() and author_formset.is_valid()):
+        if form.is_valid() and author_formset.is_valid():
             return self.form_valid(form, author_formset)
         else:
             return self.form_invalid(form, author_formset)
@@ -103,6 +103,7 @@ class AbstractCreateView(FiberPageMixin, generic.CreateView):
         :return:
         """
         self.object = form.save()  # save abstract
+        new_abstract = self.object
         author_formset.instance = self.object
         new_authors = author_formset.save(commit=False)
         rank = 1
@@ -111,19 +112,24 @@ class AbstractCreateView(FiberPageMixin, generic.CreateView):
             author.abstract = self.object
             author.save()
             rank += 1
-            
-        # TODO Send validation email
+
+        authors_list = []
+        for author in new_authors:
+            authors_list.append(author.full_name())
         # email a copy of the abstract to John Yellen and Deborah O
 
-        # abstract_message = "Presentation Type: %s \n Title: %s \n Authors: %s \n Abstact: %s \n " \
-        #                    "Acknowledgements: %s \n References: %s \n Funding %s \n Comments: %s \n " \
-        #                    "Contact Email: %s \n " % (self.presentation_type, self.title,
-        #                                               "; ".join(self.author_names), self.abstract_text,
-        #                                               self.acknowledgements, self.references,
-        #                                               self.funding, self.comments,
-        #                                               self.contact_email)
-
-        abstract_message = "Test message"
+        abstract_message = "Thank you for submitting your abstract to the " \
+                           "Paleoanthropology Society annual meetings. All abstracts are peer-reviewed and " \
+                           "you should receive notice regarding your abstract by January. \n\n" \
+                           "Abstract Details\n" \
+                           "Presentation Type: %s \n Title: %s \n Authors: %s \n Abstract: %s \n " \
+                           "Acknowledgements: %s \n References: %s \n Funding %s \n Comments: %s \n " \
+                           "Contact Email: %s \n " % (new_abstract.presentation_type, new_abstract.title,
+                                                      "; ".join(authors_list),
+                                                      new_abstract.abstract_text,
+                                                      new_abstract.acknowledgements, new_abstract.references,
+                                                      new_abstract.funding, new_abstract.comments,
+                                                      new_abstract.contact_email)
 
         send_mail('Paleoanthropology Abstract Submission',
                   abstract_message, 'paleoanthro@paleoanthro.org',  # from
