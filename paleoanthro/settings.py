@@ -45,7 +45,7 @@ DEBUG = local_settings.DEBUG
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = local_settings.ALLOWED_HOSTS
 
 POSTGIS_VERSION = (2, 0, 1)
 
@@ -99,7 +99,7 @@ WSGI_APPLICATION = 'paleoanthro.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',   # Postgres PostGIS spatial database backend
+        'ENGINE': 'django.db.backends.sqlite3',   # Sqlite database backend
         'NAME': os.path.join(BASE_DIR, 'paleoanthro.sqlite'),
     }
 }
