@@ -28,7 +28,7 @@ class MeetingsDetailView(FiberPageMixin, generic.ListView):
         #abstracts = Abstract.objects.select_related().filter(meeting__year__exact=self.kwargs['year'], accepted__exact=True)
         #abstract_list = list(abstracts)
         #abstract_list.sort(key=lambda x: x.author_set.order_by('author_rank')[0].last_name)
-        # TODO Add ajax to access absrtact text inline
+        # TODO Add ajax to access abstract text inline
         return Abstract.objects.select_related().filter(meeting__year__exact=self.kwargs['year'], accepted__exact=True).order_by('title')
 
     # Fetch corresponding fiber page content
@@ -47,7 +47,7 @@ class AbstractThanksView(FiberPageMixin, generic.ListView):
 
 
 #####################################################################
-## First pass at Create Abstract View. Needs Author inline formset ##
+## Create Abstract View using class based views and model forms    ##
 #####################################################################
 class AbstractCreateView(FiberPageMixin, generic.CreateView):
     template_name = 'meetings/abstract.html'

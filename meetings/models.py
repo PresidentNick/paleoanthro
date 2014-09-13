@@ -121,7 +121,7 @@ class Author(models.Model):
     author_rank = models.IntegerField()  # REQUIRED
     last_name = models.CharField(null=True, blank=True, max_length=200)
     first_name = models.CharField(null=True, blank=True, max_length=200)
-    name = models.CharField(max_length=200)  # REQUIRED
+    name = models.CharField(max_length=200, help_text="Full Name")  # REQUIRED
     department = models.CharField(max_length=200, null=True, blank=True)
     institution = models.CharField(max_length=200, null=True, blank=True)
     country = models.CharField(max_length=200, choices=COUNTRY_CHOICES, null=True, blank=True)
