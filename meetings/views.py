@@ -133,8 +133,8 @@ class AbstractCreateView(FiberPageMixin, generic.CreateView):
 
         send_mail('Paleoanthropology Abstract Submission',
                   abstract_message, 'paleoanthro@paleoanthro.org',  # from
-                  ['denne.reed@gmail.com'])
-                  #['jyellen@nsf.gov', 'deboraho@sas.upenn.edu']   # to
+                  #['denne.reed@gmail.com'])
+                  ['jyellen@nsf.gov', 'deboraho@sas.upenn.edu'])  # to
 
         return HttpResponseRedirect(self.get_success_url())
 
