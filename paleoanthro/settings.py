@@ -171,8 +171,8 @@ CAPTCHA_NOISE_FUNCTIONS = []
 #######################
 # email configuration #
 #######################
-# EMAIL_HOST = local_settings.EMAIL_HOST
-# EMAIL_HOST_USER = local_settings.EMAIL_HOST_USER
-# EMAIL_HOST_PASSWORD = local_settings.EMAIL_HOST_PASSWORD
-# DEFAULT_FROM_EMAIL = local_settings.DEFAULT_FROM_EMAIL
-# SERVER_EMAIL = local_settings.SERVER_EMAIL
+EMAIL_HOST = local_settings.EMAIL_HOST
+EMAIL_HOST_USER = local_settings.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = local_settings.EMAIL_HOST_PASSWORD
+DEFAULT_FROM_EMAIL = local_settings.DEFAULT_FROM_EMAIL
+SERVER_EMAIL = local_settings.SERVER_EMAIL
