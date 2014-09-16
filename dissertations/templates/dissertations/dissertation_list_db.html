@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load fiber_tags%}
+{% load staticfiles %}
+
+{% block main_content %}
+    <div class="center"><img id="square" class="center" /> <img id="square" class="center" /> <img id="square" class="center" /></div>
+    <p>&nbsp;</p>
+    <section class="content">
+        {% if dissertation_list %}
+            {% regroup dissertation_list|dictsortreversed:'year' by year as diss_list_by_year %}
+
+
+                {% for year in diss_list_by_year %}<h2>{{ year.grouper }}</h2>
+
+                    {% for dissertation in year.list|dictsortreversed:'author_last_name' %}
+
+                        <p>{{ dissertation.author_last_name }}, {{ dissertation.author_given_names }}. {{ dissertation.year }}.
+                        {% if dissertation.thesis_media.url %}
+                            <a href="{% static dissertation.thesis_media.url %}">
+                                <i>{{ dissertation.title|safe|removetags:"p" }}</i>
+                            </a>.
+                        {% else %}
+                            <i>{{ dissertation.title|safe|removetags:"p" }}</i>.
+                        {% endif %}
+                        {% if dissertation.pages %}{{ dissertation.pages }} pp.{% endif %}
+                        {% if dissertation.publisher %}{{ dissertation.publisher }}.{% endif %}
+                        {% if dissertation.location %}{{ dissertation.location }}. {% endif %}
+                        {% if dissertation.abstract_media %}
+                            <a href="{% static dissertation.abstract_media.url %}">
+                                abstract
+                            </a>
+                        {% endif %}
+                        </p>
+                    {% endfor %}
+                {% endfor %}
+
+
+
+        {% else %}
+            <p>There are no dissertations.</p>
+        {% endif %}
+    </section>
+{% endblock %}
