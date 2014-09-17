@@ -34,7 +34,7 @@ class MemberAdmin(admin.ModelAdmin):
     actions = [create_csv, 'send_emails']
 
     def send_emails(self, request, queryset):
-        return_url = "/admin/paleoanthro/member/"
+        return_url = "/admin/members/member/"
         if 'apply' in request.POST:  # check if the email form has been completed
             # code to send emails. We use send_mass_email, which requires a four-part tuple
             # containing the subject, message, from_address and a list of to addresses.
