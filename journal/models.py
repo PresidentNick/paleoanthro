@@ -31,11 +31,16 @@ class Content(models.Model):
     doi = models.CharField(max_length=128, null=True, blank=True)
     last_modified = models.DateField(null=False, blank=True, auto_now_add=True, auto_now=True)
     created = models.DateField(null=False, blank=True, auto_now_add=True)
-    pdf = models.FileField(upload_to = "webapps/static/journal/content/", null=True, blank=True)
-    supplement1 = models.CharField(max_length=50, null=True, blank=True)  # string with comma separated file names for supplementary data
-    supplement2 = models.CharField(max_length=50, null=True, blank=True)  # string with comma separated file names for supplementary data
-    supplement3 = models.CharField(max_length=50, null=True, blank=True)  # string with comma separated file names for supplementary data
-    supplement4 = models.CharField(max_length=50, null=True, blank=True)  # string with comma separated file names for supplementary data
+    pdf = models.FileField(upload_to="journal/content/", null=True, blank=True)
+    supplement1 = models.FileField(upload_to="journal/content/", null=True, blank=True)
+    supplement2 = models.CharField(max_length=50, null=True, blank=True)
+    supplement3 = models.CharField(max_length=50, null=True, blank=True)
+    supplement4 = models.CharField(max_length=50, null=True, blank=True)
+
+    # supplement1 = models.CharField(max_length=50, null=True, blank=True)  # string with comma separated file names for supplementary data
+    # supplement2 = models.CharField(max_length=50, null=True, blank=True)  # string with comma separated file names for supplementary data
+    # supplement3 = models.CharField(max_length=50, null=True, blank=True)  # string with comma separated file names for supplementary data
+    # supplement4 = models.CharField(max_length=50, null=True, blank=True)  # string with comma separated file names for supplementary data
 
     def __unicode__(self):
         return self.title[0:20]

@@ -21,7 +21,7 @@ class JournalHome(FiberPageMixin, generic.ListView):
 
         # Get a unique list of all volume years in the content db
         def get_content_years():
-            years=[] # initialize the list
+            years = []  # initialize the list
             for c in Content.objects.all():  # get all content items
                 if c.year not in years:  # add a year if not there
                     years.append(c.year)
@@ -45,7 +45,7 @@ class JournalIndex(FiberPageMixin, generic.ListView):
 
         # Get a unique list of all volume years in the content db
         def get_content_years():
-            years = [] # initialize the list
+            years = []  # initialize the list
             for c in Content.objects.all():  # get all content items
                 if c.year not in years:  # add a year if not there
                     years.append(c.year)
@@ -61,7 +61,7 @@ class JournalIndex(FiberPageMixin, generic.ListView):
 
 
 class JournalVolumes(FiberPageMixin, generic.ListView):
-    template_name = 'journal/journal.html'
+    template_name = 'journal/journal_volumes.html'
     context_object_name = 'content_list'
 
     def get_queryset(self):
@@ -71,14 +71,15 @@ class JournalVolumes(FiberPageMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         year = self.kwargs['year']
         context = super(JournalVolumes, self).get_context_data(**kwargs)
-        context['abstracts'] = Content.objects.filter(year=year, article_type="Annual Meeting Abstracts").order_by('start_page_n')
+        context['abstracts'] = Content.objects.filter(year=year,
+                                                      article_type="Annual Meeting Abstracts").order_by('start_page_n')
         context['articles'] = Content.objects.filter(year=year, article_type="Articles").order_by('start_page_n')
         context['data'] = Content.objects.filter(year=year, article_type="Data").order_by('start_page_n')
         context['reviews'] = Content.objects.filter(year=year, article_type="Reviews").order_by('start_page_n')
 
         # Get a unique list of all volume years in the content db
         def get_content_years():
-            years=[] # initialize the list
+            years = []  # initialize the list
             for c in Content.objects.all():  # get all content items
                 if c.year not in years:  # add a year if not there
                     years.append(c.year)
@@ -90,7 +91,7 @@ class JournalVolumes(FiberPageMixin, generic.ListView):
         return context
 
     def get_fiber_page_url(self):
-        return reverse('journal:volumes', kwargs={'year':self.kwargs['year']})
+        return reverse('journal:volumes', kwargs={'year': self.kwargs['year']})
 
 
 ##################################

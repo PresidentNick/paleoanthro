@@ -3,7 +3,7 @@
 {% load staticfiles %}
 
 {% block logo %}
-<div id="logo"><a href="/home"><img id="logo_image" src="{% static 'home/skull_grey150.jpg' %}"></a><img src="{%  static 'journal/journalbanner.gif' %}"></div>
+<div id="logo"><a href="/home"><img id="logo_image" src="{% static 'home/skull_grey150.jpg' %}"></a><img src="{%  static 'paleoanthro_images/journalbanner.gif' %}"></div>
 {% endblock %}
 
 
@@ -18,7 +18,7 @@
                     <b>{{item.title}}</b><br>
                     <i>Pages {{item.start_page}} - {{item.end_page}}</i><br>
                     {% if item.doi %}{{item.doi}}<br>{% endif %}
-                    <a href="/static/journal/content/{{item.pdf_link}}">PDF</a> |
+                    <a href="/media/journal/content/{{item.pdf_link}}">PDF</a> |
                     <a href="{{item.id}}/citation/">How to cite</a> |
                     <a href="{{item.id}}/bibtex/">Export in BibTex format</a> |
                     <a href="{{item.id}}/ris/">Export in RIS format</a>
@@ -39,12 +39,12 @@
                     {% if item.doi %}{{item.doi}}<br>{% endif %}
                     {% if item.supplement1 %}
                         Supplementary Documents:
-                        <a href=/static/journal/content/{{item.supplement1}}>{{item.supplement1}}</a>&nbsp;
-                        <a href=/static/journal/content/{{item.supplement2}}>{{item.supplement2}}</a>&nbsp;
-                        <a href=/static/journal/content/{{item.supplement3}}>{{item.supplement3}}</a>&nbsp;
-                        <a href=/static/journal/content/{{item.supplement4}}>{{item.supplement4}}</a><br>
+                        <a href=/media/journal/content/{{item.supplement1}}>{{item.supplement1}}</a>&nbsp;
+                        <a href=/media/journal/content/{{item.supplement2}}>{{item.supplement2}}</a>&nbsp;
+                        <a href=/media/journal/content/{{item.supplement3}}>{{item.supplement3}}</a>&nbsp;
+                        <a href=/media/journal/content/{{item.supplement4}}>{{item.supplement4}}</a><br>
                     {% endif %}
-                    <a href="/static/journal/content/{{item.pdf_link}}">PDF</a> |
+                    <a href="/media/journal/content/{{item.pdf_link}}">PDF</a> |
                     <a href="{{item.id}}/citation/">How to cite</a> |
                     <a href="{{item.id}}/bibtex/">Export in BibTex format</a> |
                     <a href="{{item.id}}/ris/">Export in RIS format</a>
@@ -64,12 +64,12 @@
                 {% if item.doi %}{{item.doi}}<br>{% endif %}
                 {% if item.supplement1 %}
                     Supplementary Documents:
-                    <a href=/static/journal/content/{{item.supplement1}}>{{item.supplement1}}</a>&nbsp;
-                    <a href=/static/journal/content/{{item.supplement2}}>{{item.supplement2}}</a>&nbsp;
-                    <a href=/static/journal/content/{{item.supplement3}}>{{item.supplement3}}</a>&nbsp;
-                    <a href=/static/journal/content/{{item.supplement4}}>{{item.supplement4}}</a><br>
+                    <a href=/media/journal/content/{{item.supplement1}}>{{item.supplement1}}</a>&nbsp;
+                    <a href=/media/journal/content/{{item.supplement2}}>{{item.supplement2}}</a>&nbsp;
+                    <a href=/media/journal/content/{{item.supplement3}}>{{item.supplement3}}</a>&nbsp;
+                    <a href=/media/journal/content/{{item.supplement4}}>{{item.supplement4}}</a><br>
                 {% endif %}
-                <a href="/static/journal/content/{{item.pdf_link}}">PDF</a> |
+                <a href="/media/journal/content/{{item.pdf_link}}">PDF</a> |
                 <a href="{{item.id}}/citation/">How to cite</a> |
                 <a href="{{item.id}}/bibtex/">Export in BibTex format</a> |
                 <a href="{{item.id}}/ris/">Export in RIS format</a>
@@ -86,7 +86,7 @@
                 <i>Pages {{item.start_page}} - {{item.end_page}}</i><br>
                 {{item.authors}}<br>
                 {% if item.doi %}{{item.doi}}<br>{% endif %}
-                <a href="/static/journal/content/{{item.pdf_link}}">PDF</a> |
+                <a href="/media/journal/content/{{item.pdf_link}}">PDF</a> |
                 <a href="{{item.id}}/citation/">How to cite</a> |
                 <a href="{{item.id}}/bibtex/">Export in BibTex format</a> |
                 <a href="{{item.id}}/ris/">Export in RIS format</a>
