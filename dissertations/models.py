@@ -22,8 +22,8 @@ class Dissertation(models.Model):
     location = models.CharField(max_length=200, null=True, blank=True, help_text="The publishing location")
     last_modified = models.DateField(null=False, blank=True, auto_now_add=True, auto_now=True)  # REQUIRED BUT AUTOMATIC
     created = models.DateField(null=False, blank=True, auto_now_add=True)  # REQUIRED BUT AUTOMATIC
-    abstract_media = models.FileField(upload_to="dissertations/", null=True, blank=True)
-    thesis_media = models.FileField(upload_to="dissertations/", null=True, blank=True)
+    abstract_media = models.FileField(upload_to="dissertations", null=True, blank=True)
+    thesis_media = models.FileField(upload_to="dissertations", null=True, blank=True)
 
     def __unicode__(self):
         return self.title[0:20]

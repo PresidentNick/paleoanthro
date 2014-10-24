@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.views import generic
 from fiber.views import FiberPageMixin
-from dissertations.models import Dissertation
 from django.core.urlresolvers import reverse
+from dissertations.models import Dissertation
+
 
 
 #####################
