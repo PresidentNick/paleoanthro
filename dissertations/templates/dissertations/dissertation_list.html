@@ -14,7 +14,7 @@
 
                 <ul><li>
                 <b>{{ item.author_last_name }}, {{ item.author_given_names }}. {{ item.year }}. </b>
-                {{ item.title|safe }}. {{ item.publisher }}. {{ item.pages }} pp. <br>
+                {{ item.title|striptags }}. {{ item.publisher }}. {{ item.pages }} pp. <br>
                 {% if item.abstract_media %}
                     <a href="{{ item.abstract_media.url }}">Abstract</a>
                 {% endif %}
