@@ -7,7 +7,7 @@
     <p>&nbsp;</p>
     <section class="content">
     {% if dissertation_list %}
-        {%  regroup dissertation_list|dictsort:"year" by year as sorted_list %} <hr>
+        {%  regroup dissertation_list|dictsortreversed:"year" by year as sorted_list %} <hr>
         {% for dissertation in sorted_list %}
             <h4 style="text-align: center;">{{ dissertation.grouper }}</h4>
             {% for item in dissertation.list %}
