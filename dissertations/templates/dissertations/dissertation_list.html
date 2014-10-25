@@ -12,18 +12,24 @@
             <h4 style="text-align: center;">{{ dissertation.grouper }}</h4>
             {% for item in dissertation.list %}
 
-                <ul><li>
-                <b>{{ item.author_last_name }}, {{ item.author_given_names }}. {{ item.year }}. </b>
-                {{ item.title|striptags }}. {{ item.publisher }}. {{ item.pages }} pp. <br>
-                {% if item.abstract_media %}
-                    <a href="{{ item.abstract_media.url }}">Abstract</a>
-                {% endif %}
-                {% if item.thesis_media %}
-                    <a href="{{ item.thesis_media.url }}">Thesis</a>
-                {% endif %}</li>
-            {% endfor %}
+                <ul>
+                    <li>
+                        <b>{{ item.author_last_name }}, {{ item.author_given_names }}. {{ item.year }}. </b>
+                        {{ item.title|removetags:"p"|safe }}. {{ item.publisher }}. {{ item.pages }} pp. <br>
+                        {% if item.abstract_media %}
+                            <a href="{{ item.abstract_media.url }}">Abstract</a>
+                        {% endif %}
+                        {% if item.thesis_media %}
+                            <a href="{{ item.thesis_media.url }}">Thesis</a>
+                        {% endif %}
+                    </li>
+
             </ul>
+
+            {% endfor %}
+
             <hr>
+
         {% endfor %}
     {% endif %}
     </section>

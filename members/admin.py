@@ -12,6 +12,7 @@ class MembershipInline(admin.TabularInline):
 
 
 def create_csv(modeladmin, request, queryset):
+    # TODO modify so that csv includes header row with field names
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="PaleoAnthro_directory_info.csv"'
     writer = csv.writer(response)

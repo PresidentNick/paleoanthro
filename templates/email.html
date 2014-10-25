@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<form action={{ returnURL }} method="post" id="message_form">{% csrf_token %}
+<form action="{{ return_url }}" method="post" id="message_form">{% csrf_token %}
 
     <h2>Compose your email message</h2>
     Subject: <input type="text" name="subject"/><br>
