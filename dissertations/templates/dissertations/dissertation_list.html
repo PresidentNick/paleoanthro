@@ -7,14 +7,14 @@
     <p>&nbsp;</p>
     <section class="content">
     {% if dissertation_list %}
-        {%  regroup dissertation_list|dictsort:"year" by year as sorted_list %} <hr>
+        {%  regroup dissertation_list|dictsortreversed:"year" by year as sorted_list %} <hr>
         {% for dissertation in sorted_list %}
             <h4 style="text-align: center;">{{ dissertation.grouper }}</h4>
             {% for item in dissertation.list %}
 
                 <ul><li>
                 <b>{{ item.author_last_name }}, {{ item.author_given_names }}. {{ item.year }}. </b>
-                {{ item.title|safe }}. {{ item.publisher }}. {{ item.pages }} pp. <br>
+                {{ item.title|striptags }}. {{ item.publisher }}. {{ item.pages }} pp. <br>
                 {% if item.abstract_media %}
                     <a href="{{ item.abstract_media.url }}">Abstract</a>
                 {% endif %}
