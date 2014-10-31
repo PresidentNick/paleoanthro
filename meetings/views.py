@@ -7,6 +7,7 @@ from forms import AbstractForm, AuthorInlineFormSet
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.core.mail import send_mail
+from paleoanthro.settings import DEBUG
 
 
 class MeetingsView(FiberPageMixin, generic.ListView):
@@ -83,12 +84,25 @@ class AbstractCreateView(FiberPageMixin, generic.CreateView):
         :param kwargs:
         :return:
         """
+        # TODO generalize year and meeting id. Currently these are hardwired in the code.
         self.object = None
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         form.meeting_id = 24
         form.year = 2015
         author_formset = AuthorInlineFormSet(self.request.POST)
+        if 'add_authors' in self.request.POST:
+            cp = self.request.POST.copy()  # create a copy of the request
+
+            # the following two lines increase the total forms
+            # attribute from the formset manager
+            max_forms = cp['author_set-TOTAL_FORMS']
+            cp['author_set-TOTAL_FORMS'] = int(max_forms) + 3
+
+            # create new forms from the updated request data
+            author_formset = AuthorInlineFormSet(cp)
+            return self.form_invalid(form, author_formset)
+
         if form.is_valid() and author_formset.is_valid():
             return self.form_valid(form, author_formset)
         else:
@@ -116,9 +130,11 @@ class AbstractCreateView(FiberPageMixin, generic.CreateView):
         authors_list = []
         for author in new_authors:
             authors_list.append(author.full_name())
-        # email a copy of the abstract to John Yellen and Deborah O
 
-        abstract_message = "Thank you for submitting your abstract to the " \
+
+        # send confirmation and notification emails to authors and PaS administrators
+
+        confirmation_message = "Thank you for submitting your abstract to the " \
                            "Paleoanthropology Society annual meetings. All abstracts are peer-reviewed and " \
                            "you should receive notice regarding your abstract by January. \n\n" \
                            "Abstract Details\n" \
@@ -131,10 +147,31 @@ class AbstractCreateView(FiberPageMixin, generic.CreateView):
                                                       new_abstract.funding, new_abstract.comments,
                                                       new_abstract.contact_email)
 
-        send_mail('Paleoanthropology Abstract Submission',
-                  abstract_message, 'paleoanthro@paleoanthro.org',  # from
-                  #['denne.reed@gmail.com'])
-                  ['jyellen@nsf.gov', 'deboraho@sas.upenn.edu'])  # to
+        # Construct a notification message to John Yellen and Deborah O
+
+        abstract_message = "The following abstract has been submitted for the " \
+                           "Paleoanthropology Society annual meetings. \n\n" \
+                           "Abstract Details\n" \
+                           "Presentation Type: %s \n Title: %s \n Authors: %s \n Abstract: %s \n " \
+                           "Acknowledgements: %s \n References: %s \n Funding %s \n Comments: %s \n " \
+                           "Contact Email: %s \n " % (new_abstract.presentation_type, new_abstract.title,
+                                                      "; ".join(authors_list),
+                                                      new_abstract.abstract_text,
+                                                      new_abstract.acknowledgements, new_abstract.references,
+                                                      new_abstract.funding, new_abstract.comments,
+                                                      new_abstract.contact_email)
+
+        # TODO exception handling, add condition where if DEBUG==True send to denne.reed@gmail.com
+        if DEBUG == False:
+            send_mail('Paleoanthropology Abstract Submission',
+                      confirmation_message, 'paleoanthro@paleoanthro.org',  # from
+                      #['denne.reed@gmail.com'])
+                      [new_abstract.contact_email, ])  # to
+
+            send_mail('Paleoanthropology Abstract Submission',
+                      abstract_message, 'paleoanthro@paleoanthro.org',  # from
+                      #['denne.reed@gmail.com'])
+                      ['jyellen@nsf.gov', 'deboraho@sas.upenn.edu'])  # to
 
         return HttpResponseRedirect(self.get_success_url())
 
