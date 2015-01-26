@@ -97,7 +97,7 @@ class AbstractCreateView(FiberPageMixin, generic.CreateView):
             # the following two lines increase the total forms
             # attribute from the formset manager
             max_forms = cp['author_set-TOTAL_FORMS']
-            cp['author_set-TOTAL_FORMS'] = int(max_forms) + 3
+            cp['author_set-TOTAL_FORMS'] = int(max_forms) + 1
 
             # create new forms from the updated request data
             author_formset = AuthorInlineFormSet(cp)
@@ -277,7 +277,7 @@ def create_abstract(request):
 
                 new_abstract = abstract_form.save()  # save abstract for real
                 new_authors = author_formset.save(commit=False)  # need this step to only process completed author forms
-                rank = 1
+                rank = _1
                 for author in new_authors:
                     author.author_rank = rank
                     author.abstract = new_abstract

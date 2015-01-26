@@ -119,13 +119,13 @@ class Abstract(models.Model):
 class Author(models.Model):
     abstract = models.ForeignKey('Abstract')  # REQUIRED
     author_rank = models.IntegerField()  # REQUIRED
-    last_name = models.CharField(null=True, blank=True, max_length=200)
-    first_name = models.CharField(null=True, blank=True, max_length=200)
+    last_name = models.CharField(max_length=200)  # REQUIRED
+    first_name = models.CharField(max_length=200)  # REQUIRED
     name = models.CharField(max_length=200, help_text="Full Name")  # REQUIRED
-    department = models.CharField(max_length=200, null=True, blank=True)
-    institution = models.CharField(max_length=200, null=True, blank=True)
-    country = models.CharField(max_length=200, choices=COUNTRY_CHOICES, null=True, blank=True)
-    email_address = models.EmailField(max_length=200, null=True, blank=True)
+    department = models.CharField(max_length=200)  # REQUIRED
+    institution = models.CharField(max_length=200)  # REQUIRED
+    country = models.CharField(max_length=200, choices=COUNTRY_CHOICES)  # REQUIRED
+    email_address = models.EmailField(max_length=200)  # REQUIRED
 
     def __unicode__(self):
         return self.name
