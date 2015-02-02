@@ -98,22 +98,23 @@ class JournalSearch(FiberPageMixin, generic.ListView):
     template_name = 'journal/journal_volumes.html'
     context_object_name = 'content_list'
 
-    def journal_search(request):
-    queryset = Content.objects.filter()
-    if request.method == 'POST':
-        if request.POST['query'] and request.POST['query'].strip():
-            query_string = request.POST['query']
-            entry_query = get_query(['title'], query_string)
-            queryset = queryset.filter(entry_query)
+    def get_queryset(self, request):
+        queryset = Content.objects.filter()
+        if request.method == 'POST':
+            if request.POST['query'] and request.POST['query'].strip():
+                query_string = request.POST['query']
+                entry_query = get_query(['title'], query_string)
+                queryset = queryset.filter(entry_query)
+                return queryset
         # return render_to_response('journal/search_results.html', {'results': queryset}, RequestContext(request))
     # return render_to_response('journal/search_results.html', RequestContext(request))
 
-    def get_queryset(self):
-        queryset = Content.objects.filter(year__exact=self.kwargs['year'])
-        return queryset
+    # def get_queryset(self):
+    #     queryset = Content.objects.filter(year__exact=self.kwargs['year'])
+    #     return queryset
 
     def get_context_data(self, **kwargs):
-        year = self.kwargs['year']
+        # year = self.kwargs['year']
         context = super(JournalVolumes, self).get_context_data(**kwargs)
         context['abstracts'] = Content.objects.filter(year=year,
                                                       article_type="Annual Meeting Abstracts").order_by('start_page_n')
