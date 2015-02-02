@@ -6,16 +6,6 @@
 <div id="logo"><a href="/home"><img id="logo_image" src="{% static 'home/skull_grey150.jpg' %}"></a><img src="{%  static 'paleoanthro_images/journalbanner.gif' %}"></div>
 {% endblock %}
 
-{% block search_bar %}
-
-    <form method="post" action="/journal/search/">
-        {% csrf_token %}
-        <label for="id_q">Search:</label>
-        <input type="text" name="query" id="id_q"/>
-        <input type="submit" value="Submit"/>
-    </form> <hr>
-
-{% endblock %}
 
 {% block main_content %}
 <div class="content">

@@ -4,5 +4,91 @@
 
 {% block main_content %}
     here are the results
-    {% if results %}{{ results }}{% endif %}
+
+<div class="content">
+    <section id="abstracts">
+        {% if abstracts %}
+            <h2>Annual Meeting Abstracts</h2>
+            <hr>
+            {% for item in abstracts %}
+                <p>
+                    <b>{{item.title}}</b><br>
+                    <i>Pages {{item.start_page}} - {{item.end_page}}</i><br>
+                    {% if item.doi %}{{item.doi}}<br>{% endif %}
+                    <a href="/media/journal/content/{{item.pdf_link}}">PDF</a> |
+                    <a href="{{item.id}}/citation/">How to cite</a> |
+                    <a href="{{item.id}}/bibtex/">Export in BibTex format</a> |
+                    <a href="{{item.id}}/ris/">Export in RIS format</a>
+                </p>
+            {% endfor %}
+        {% endif %}
+    </section>
+
+    <section id="articles">
+        {% if articles %}
+            <h2>Articles</h2>
+            <hr>
+            {% for item in articles %}
+                <p>
+                    <b>{{item.title}}</b><br>
+                    <i>Pages {{item.start_page}} - {{item.end_page}}</i><br>
+                    {{item.authors}}<br>
+                    {% if item.doi %}{{item.doi}}<br>{% endif %}
+                    {% if item.supplement1 %}
+                        Supplementary Documents:
+                        <a href=/media/journal/content/{{item.supplement1}}>{{item.supplement1}}</a>&nbsp;
+                        <a href=/media/journal/content/{{item.supplement2}}>{{item.supplement2}}</a>&nbsp;
+                        <a href=/media/journal/content/{{item.supplement3}}>{{item.supplement3}}</a>&nbsp;
+                        <a href=/media/journal/content/{{item.supplement4}}>{{item.supplement4}}</a><br>
+                    {% endif %}
+                    <a href="/media/journal/content/{{item.pdf_link}}">PDF</a> |
+                    <a href="{{item.id}}/citation/">How to cite</a> |
+                    <a href="{{item.id}}/bibtex/">Export in BibTex format</a> |
+                    <a href="{{item.id}}/ris/">Export in RIS format</a>
+                </p>
+            {% endfor %}
+        {% endif %}
+    </section>
+
+    {% if data %}
+        <h2>Data</h2>
+        <hr>
+        {% for item in data %}
+            <p>
+                <b>{{item.title}}</b><br>
+                <i>Pages {{item.start_page}} - {{item.end_page}}</i><br>
+                {{item.authors}}<br>
+                {% if item.doi %}{{item.doi}}<br>{% endif %}
+                {% if item.supplement1 %}
+                    Supplementary Documents:
+                    <a href=/media/journal/content/{{item.supplement1}}>{{item.supplement1}}</a>&nbsp;
+                    <a href=/media/journal/content/{{item.supplement2}}>{{item.supplement2}}</a>&nbsp;
+                    <a href=/media/journal/content/{{item.supplement3}}>{{item.supplement3}}</a>&nbsp;
+                    <a href=/media/journal/content/{{item.supplement4}}>{{item.supplement4}}</a><br>
+                {% endif %}
+                <a href="/media/journal/content/{{item.pdf_link}}">PDF</a> |
+                <a href="{{item.id}}/citation/">How to cite</a> |
+                <a href="{{item.id}}/bibtex/">Export in BibTex format</a> |
+                <a href="{{item.id}}/ris/">Export in RIS format</a>
+            </p>
+        {% endfor %}
+    {% endif %}
+
+    {% if reviews %}
+        <h2>Reviews</h2>
+        <hr>
+        {% for item in reviews %}
+            <p>
+                <b>{{item.title}}</b><br>
+                <i>Pages {{item.start_page}} - {{item.end_page}}</i><br>
+                {{item.authors}}<br>
+                {% if item.doi %}{{item.doi}}<br>{% endif %}
+                <a href="/media/journal/content/{{item.pdf_link}}">PDF</a> |
+                <a href="{{item.id}}/citation/">How to cite</a> |
+                <a href="{{item.id}}/bibtex/">Export in BibTex format</a> |
+                <a href="{{item.id}}/ris/">Export in RIS format</a>
+            </p>
+        {% endfor %}
+    {% endif %}
+</div>
 {% endblock %}

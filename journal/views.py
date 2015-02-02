@@ -95,32 +95,40 @@ class JournalVolumes(FiberPageMixin, generic.ListView):
         return reverse('journal:volumes', kwargs={'year': self.kwargs['year']})
 
 class JournalSearch(FiberPageMixin, generic.ListView):
-    template_name = 'journal/journal_volumes.html'
-    context_object_name = 'content_list'
+    template_name = 'journal/search_results.html'
+    model = Content
+    #context_object_name = 'content_list'
 
-    def get_queryset(self, request):
-        queryset = Content.objects.filter()
-        if request.method == 'POST':
-            if request.POST['query'] and request.POST['query'].strip():
-                query_string = request.POST['query']
-                entry_query = get_query(['title'], query_string)
-                queryset = queryset.filter(entry_query)
-                return queryset
+    def get_fiber_page_url(self):
+        return reverse('journal:search')
+
+    # def get_queryset(self, request):
+    #     queryset = Content.objects.filter()
+    #     if request.method == 'POST':
+    #         if request.POST['query'] and request.POST['query'].strip():
+    #             query_string = request.POST['query']
+    #             entry_query = get_query(['title'], query_string)
+    #             queryset = queryset.filter(entry_query)
+    #             return queryset
         # return render_to_response('journal/search_results.html', {'results': queryset}, RequestContext(request))
     # return render_to_response('journal/search_results.html', RequestContext(request))
 
-    # def get_queryset(self):
-    #     queryset = Content.objects.filter(year__exact=self.kwargs['year'])
-    #     return queryset
 
-    def get_context_data(self, **kwargs):
-        # year = self.kwargs['year']
-        context = super(JournalVolumes, self).get_context_data(**kwargs)
-        context['abstracts'] = Content.objects.filter(year=year,
-                                                      article_type="Annual Meeting Abstracts").order_by('start_page_n')
-        context['articles'] = Content.objects.filter(year=year, article_type="Articles").order_by('start_page_n')
-        context['data'] = Content.objects.filter(year=year, article_type="Data").order_by('start_page_n')
-        context['reviews'] = Content.objects.filter(year=year, article_type="Reviews").order_by('start_page_n')
+    def get_context_data(self, request, **kwargs):
+        #year = 2014
+        #year = self.kwargs['year']
+        queryset = self.queryset
+        context = super(JournalSearch, self).get_context_data(**kwargs)
+        if request.method == 'GET':
+            if request.GET['query'] and request.GET['query'].strip():
+                query_string = request.GET['query']
+                entry_query = get_query(['title'], query_string)
+                queryset = queryset.filter(entry_query)
+
+        context['abstracts'] = queryset.filter(article_type="Annual Meeting Abstracts").order_by('start_page_n')
+        context['articles'] = Content.objects.filter(article_type="Articles").order_by('start_page_n')
+        context['data'] = Content.objects.filter(article_type="Data").order_by('start_page_n')
+        context['reviews'] = Content.objects.filter(article_type="Reviews").order_by('start_page_n')
 
         # Get a unique list of all volume years in the content db
         def get_content_years():
@@ -135,8 +143,7 @@ class JournalSearch(FiberPageMixin, generic.ListView):
 
         return context
 
-    def get_fiber_page_url(self):
-        return reverse('journal:volumes', kwargs={'year': self.kwargs['year']})
+
 
 
 ##################################
