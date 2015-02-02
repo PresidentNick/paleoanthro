@@ -2,7 +2,7 @@ from django.views import generic
 from models import Content
 from django.core.urlresolvers import reverse
 from fiber.views import FiberPageMixin
-from django.db.models import Max
+from django.db.models import Max, Q
 from django.shortcuts import get_object_or_404, redirect, render_to_response
 from django.http import HttpResponse, Http404
 from django.template import RequestContext
@@ -61,10 +61,52 @@ class JournalIndex(FiberPageMixin, generic.ListView):
     def get_fiber_page_url(self):
         return reverse('journal:journal_index')
 
-
 class JournalVolumes(FiberPageMixin, generic.ListView):
     template_name = 'journal/journal_volumes.html'
     context_object_name = 'content_list'
+
+    def get_queryset(self):
+        queryset = Content.objects.filter(year__exact=self.kwargs['year'])
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        year = self.kwargs['year']
+        context = super(JournalVolumes, self).get_context_data(**kwargs)
+        context['abstracts'] = Content.objects.filter(year=year,
+                                                      article_type="Annual Meeting Abstracts").order_by('start_page_n')
+        context['articles'] = Content.objects.filter(year=year, article_type="Articles").order_by('start_page_n')
+        context['data'] = Content.objects.filter(year=year, article_type="Data").order_by('start_page_n')
+        context['reviews'] = Content.objects.filter(year=year, article_type="Reviews").order_by('start_page_n')
+
+        # Get a unique list of all volume years in the content db
+        def get_content_years():
+            years = []  # initialize the list
+            for c in Content.objects.all():  # get all content items
+                if c.year not in years:  # add a year if not there
+                    years.append(c.year)
+                    years.sort()  # sort latest to earliest
+            return years
+
+        context['years'] = get_content_years()
+
+        return context
+
+    def get_fiber_page_url(self):
+        return reverse('journal:volumes', kwargs={'year': self.kwargs['year']})
+
+class JournalSearch(FiberPageMixin, generic.ListView):
+    template_name = 'journal/journal_volumes.html'
+    context_object_name = 'content_list'
+
+    def journal_search(request):
+    queryset = Content.objects.filter()
+    if request.method == 'POST':
+        if request.POST['query'] and request.POST['query'].strip():
+            query_string = request.POST['query']
+            entry_query = get_query(['title'], query_string)
+            queryset = queryset.filter(entry_query)
+        # return render_to_response('journal/search_results.html', {'results': queryset}, RequestContext(request))
+    # return render_to_response('journal/search_results.html', RequestContext(request))
 
     def get_queryset(self):
         queryset = Content.objects.filter(year__exact=self.kwargs['year'])
@@ -149,16 +191,7 @@ def journal_ris(request, content_id, **kwargs):
     return HttpResponse(ris_string)
 
 
-def journal_search(request):
-    query_set = Content.objects.filter()
-    if request.method == 'POST':
-        if request.POST['query'] and request.POST['query'].strip():
-            query_string = request.POST['query']
-            entry_query = get_query(['title'], query_string)
-            query_set = query_set.filter(entry_query)
-        return render_to_response('journal/search_results.html', {'Results': query_set}, RequestContext(request))
-    else:
-        raise Http404
+
 
 
 ####################################FOR QUERY PURPOSES###########################################

@@ -12,8 +12,7 @@
 
 {% block search_bar %}
 
-    <form method="post" action="/journal/search/">
-        {% csrf_token %}
+    <form method="post" action="/journal/search/">{% csrf_token %}
         <label for="id_q">Search:</label>
         <input type="text" name="query" id="id_q"/>
         <input type="submit" value="Submit"/>

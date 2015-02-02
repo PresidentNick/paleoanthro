@@ -3,5 +3,6 @@
 {% load staticfiles %}
 
 {% block main_content %}
-Here are your results!!!
+    here are the results
+    {% if results %}{{ results }}{% endif %}
 {% endblock %}

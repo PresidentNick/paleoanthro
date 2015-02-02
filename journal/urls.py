@@ -20,5 +20,5 @@ urlpatterns = patterns('',
                        # ex /journal/volumes/2013/223/ris/
                        url(r'^volumes/(?P<year>\d{4})/(?P<content_id>\d+)/ris/$', views.journal_ris, name='ris'),
                        # ex /journal/search/
-                       url(r'^volumes/search/$', views.journal_search, name='search'),
+                       url(r'^search/$', views.journal_search, name='search'),
                        )
