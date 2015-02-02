@@ -3,14 +3,16 @@ from models import Content
 from django.core.urlresolvers import reverse
 from fiber.views import FiberPageMixin
 from django.db.models import Max
-from django.shortcuts import get_object_or_404, redirect
-from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render_to_response
+from django.http import HttpResponse, Http404
+from django.template import RequestContext
 import string
+import re
 
 
-#############################
+# ############################
 # class based journal views #
-#############################
+# ############################
 
 class JournalHome(FiberPageMixin, generic.ListView):
     model = Content
@@ -105,7 +107,7 @@ def static_redirect(request, resource):
     :param resource:
     :return:
     """
-    static_resource = '/static/journal/content/'+resource  # resource is passed from url, points to a pdf
+    static_resource = '/static/journal/content/' + resource  # resource is passed from url, points to a pdf
     return redirect(to=static_resource)  # redirect to a new url
 
 
@@ -115,6 +117,7 @@ def journal_current(request):
     :param request:
     :return:
     """
+
     def get_current_volume():
         # Return the most recent (max) year for any content item
         return Content.objects.aggregate(Max('year'))['year__max']
@@ -144,3 +147,50 @@ def journal_ris(request, content_id, **kwargs):
     ris_string = 'TY - JOUR<br>%s<br>T1 - %s<br>JO - PaleoAnthropology<br>Y1 - %s<br>VL - %s<br>SP - %s<br>EP - %s<br>ER - ' % \
                  (author_string2, c.title, c.year, c.year, c.start_page, c.end_page)
     return HttpResponse(ris_string)
+
+
+def journal_search(request):
+    query_set = Content.objects.filter()
+    if request.method == 'POST':
+        if request.POST['query'] and request.POST['query'].strip():
+            query_string = request.POST['query']
+            entry_query = get_query(['title'], query_string)
+            query_set = query_set.filter(entry_query)
+        return render_to_response('journal/search_results.html', {'Results': query_set}, RequestContext(request))
+    else:
+        raise Http404
+
+
+####################################FOR QUERY PURPOSES###########################################
+
+#Credit: http://www.julienphalip.com/blog/2008/08/16/adding-search-django-site-snap/
+
+#Splits the query string in invidual keywords, getting rid of unecessary spaces and grouping quoted words together.
+
+
+def normalize_query(query_string,
+                    findterms=re.compile(r'"([^"]+)"|(\S+)').findall,
+                    normspace=re.compile(r'\s{2,}').sub):
+    return [normspace(' ', (t[0] or t[1]).strip()) for t in findterms(query_string)]
+
+
+#Returns a query, that is a combination of Q objects. That combination aims to search keywords within a model by
+#testing the given search fields.
+
+
+def get_query(fields, query_string):
+    query = None  # Query to search for every search term
+    terms = normalize_query(query_string)
+    for term in terms:
+        or_query = None  # Query to search for a given term in each field
+        for field in fields:
+            q = Q(**{'%s__icontains' % field: term})
+            if or_query is None:
+                or_query = q
+            else:
+                or_query = or_query | q
+        if query is None:
+            query = or_query
+        else:
+            query = query & or_query
+    return query
