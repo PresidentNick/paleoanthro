@@ -61,6 +61,7 @@ class JournalIndex(FiberPageMixin, generic.ListView):
     def get_fiber_page_url(self):
         return reverse('journal:journal_index')
 
+
 class JournalVolumes(FiberPageMixin, generic.ListView):
     template_name = 'journal/journal_volumes.html'
     context_object_name = 'content_list'
@@ -94,28 +95,30 @@ class JournalVolumes(FiberPageMixin, generic.ListView):
     def get_fiber_page_url(self):
         return reverse('journal:volumes', kwargs={'year': self.kwargs['year']})
 
+
 class JournalSearch(FiberPageMixin, generic.ListView):
     template_name = 'journal/search_results.html'
     model = Content
-    #context_object_name = 'content_list'
+    # context_object_name = 'content_list'
 
     def get_fiber_page_url(self):
         return reverse('journal:search')
 
-    # def get_queryset(self, request):
-    #     queryset = Content.objects.filter()
-    #     if request.method == 'POST':
-    #         if request.POST['query'] and request.POST['query'].strip():
-    #             query_string = request.POST['query']
-    #             entry_query = get_query(['title'], query_string)
-    #             queryset = queryset.filter(entry_query)
-    #             return queryset
+        # def get_queryset(self, request):
+        # queryset = Content.objects.filter()
+        #     if request.method == 'POST':
+        #         if request.POST['query'] and request.POST['query'].strip():
+        #             query_string = request.POST['query']
+        #             entry_query = get_query(['title'], query_string)
+        #             queryset = queryset.filter(entry_query)
+        #             return queryset
         # return render_to_response('journal/search_results.html', {'results': queryset}, RequestContext(request))
+
     # return render_to_response('journal/search_results.html', RequestContext(request))
 
 
     def get_context_data(self, request, **kwargs):
-        #year = 2014
+        # year = 2014
         #year = self.kwargs['year']
         queryset = self.queryset
         context = super(JournalSearch, self).get_context_data(**kwargs)
@@ -144,11 +147,9 @@ class JournalSearch(FiberPageMixin, generic.ListView):
         return context
 
 
-
-
-##################################
+# #################################
 # definition based journal views #
-##################################
+# #################################
 
 def static_redirect(request, resource):
     """
@@ -197,9 +198,6 @@ def journal_ris(request, content_id, **kwargs):
     ris_string = 'TY - JOUR<br>%s<br>T1 - %s<br>JO - PaleoAnthropology<br>Y1 - %s<br>VL - %s<br>SP - %s<br>EP - %s<br>ER - ' % \
                  (author_string2, c.title, c.year, c.year, c.start_page, c.end_page)
     return HttpResponse(ris_string)
-
-
-
 
 
 ####################################FOR QUERY PURPOSES###########################################
